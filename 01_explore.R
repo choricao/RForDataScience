@@ -1,6 +1,7 @@
 source('LoadLibraries.R')
 
-# Aesthetic Mappings
+### Data Visualization with ggplot2 ###
+## Aesthetic Mappings
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy))
 
@@ -22,7 +23,7 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = displ < 5))
 
-# Facets
+## Facets
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_wrap(~ class, nrow = 2) # use facet_warp to facet plot by a single variable
@@ -39,7 +40,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) +
   facet_grid(drv ~ .)
 
-# Geometric Objects
+## Geometric Objects
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy))
 
@@ -93,7 +94,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_point() # 6.6
 
-# Statistical Transformations
+## Statistical Transformations
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut)) # default: stat = "count"
 
@@ -114,7 +115,7 @@ ggplot(data = diamonds) +
     fun.y = median
   ) # draw greater attention to the statistical transformation
 
-# Position Adjustments
+## Position Adjustments
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, color = cut))
 
@@ -139,7 +140,7 @@ ggplot(data = mpg) +
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_jitter() # shorthand: geom_jitter()
 
-# Coordinate Systems
+## Coordinate Systems
 ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
   geom_boxplot()
 
@@ -160,3 +161,28 @@ ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
 # Seven parameters to make a graph.
 # DATA, GEOM_FUNCTION, and MAPPING are required.
 # Defaults are available for STAT, POSITION, COORDINATE_FUNCTION, and FACET_FUNCTION.
+
+### Data Transformation with dplyr ###
+## Filter Rows with filter()
+filter(flights, month == 1, day == 1)
+jan1 <- filter(flights, month == 1, day == 1)
+(dec25 <- filter(flights, month == 12, day == 25))
+
+sqrt(2) ^ 2 == 2
+near(sqrt(2) ^ 2, 2) # use near() to compare floating-point numbers
+
+filter(flights, month == 11 | month == 12)
+nov_dec <- filter(flights, month %in% c(11, 12))
+
+df <- tibble(x = c(1, NA, 3))
+filter(df, x > 1) # filter() excludes both FALSE and NA values
+filter(df, is.na(x) | x > 1) # ask for them explicitly if you want to preserve missing values
+
+filter(flights, arr_delay >= 120)
+filter(flights, dest == "IAH" | dest == "HOU")
+filter(flights, carrier %in% c("UA", "AA", "DL"))
+filter(flights, month %in% c(7, 8, 9))
+filter(flights, arr_delay > 120 & dep_delay <= 0)
+filter(flights, (dep_time >= 0 & dep_time <= 600) | dep_time == 2400)
+filter(flights, between(dep_time, 0, 600))
+filter(flights, is.na(dep_time))
