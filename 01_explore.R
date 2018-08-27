@@ -114,3 +114,27 @@ ggplot(data = diamonds) +
     fun.y = median
   ) # draw greater attention to the statistical transformation
 
+# Position Adjustments
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, color = cut))
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = cut))
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity)) # dafault: position = "stack"
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "identity", alpha = 1/5) # not useful for bars, because it overlaps them
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter") # add a small amount of random noise to each point to avoid "overplotting"
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_jitter() # shorthand: geom_jitter()
