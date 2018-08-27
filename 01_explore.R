@@ -138,3 +138,11 @@ ggplot(data = mpg) +
 
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   geom_jitter() # shorthand: geom_jitter()
+
+# Coordinate Systems
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+  geom_boxplot()
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+  geom_boxplot() +
+  coord_flip() # coord_quickmap(): set aspect ratio correctly for maps; coord_polar(): use polar coordinates
