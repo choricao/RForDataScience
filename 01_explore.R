@@ -146,3 +146,17 @@ ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
 ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
   geom_boxplot() +
   coord_flip() # coord_quickmap(): set aspect ratio correctly for maps; coord_polar(): use polar coordinates
+
+## Layered Grammar of Graphics ##
+# ggplot(data = <DATA>) +
+#   <GEOM_FUNCTION>(
+#     mapping = aes(<MAPPING>),
+#     stat = <STAT>,
+#     position = <POSITION>
+#   ) +
+#   <COORDINATE_FUNCTION> +
+#   <FACET_FUNCTION>
+#
+# Seven parameters to make a graph.
+# DATA, GEOM_FUNCTION, and MAPPING are required.
+# Defaults are available for STAT, POSITION, COORDINATE_FUNCTION, and FACET_FUNCTION.
