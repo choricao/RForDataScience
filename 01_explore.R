@@ -196,3 +196,20 @@ arrange(flights, desc(dep_delay))
 arrange(flights, air_time)
 arrange(flights, desc(distance))
 arrange(flights, distance)
+
+## Select Columns with select()
+select(flights, year, month, day)
+select(flights, year:day)
+select(flights, -(year:day))
+
+select(flights, starts_with("dep"))
+select(flights, ends_with("time"))
+select(flights, contains("hour"))
+select(flights, matches("(.)_(.)"))
+select(flights, num_range("x", 1:3))
+
+select(flights, yr = year) # will drop all variables not explicitly mentioned
+rename(flights, yr = year) # will keep all variables not explicitly mentioned
+
+select(flights, time_hour, air_time, everything())
+select(flights, contains("TIME", ignore.case = FALSE))
