@@ -186,3 +186,13 @@ filter(flights, arr_delay > 120 & dep_delay <= 0)
 filter(flights, (dep_time >= 0 & dep_time <= 600) | dep_time == 2400)
 filter(flights, between(dep_time, 0, 600))
 filter(flights, is.na(dep_time))
+
+## Arrange Rows with arrange()
+arrange(flights, year, month, day)
+arrange(flights, desc(arr_delay))
+
+arrange(flights, desc(is.na(arr_delay)))
+arrange(flights, desc(dep_delay))
+arrange(flights, air_time)
+arrange(flights, desc(distance))
+arrange(flights, distance)
