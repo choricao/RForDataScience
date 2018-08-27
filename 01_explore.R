@@ -92,3 +92,25 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_point() # 6.6
+
+# Statistical Transformations
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut)) # default: stat = "count"
+
+ggplot(data = diamonds) +
+  stat_count(mapping = aes(x = cut)) # default: geom = "bar
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, y = price), stat = "identity") # override the default stat
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1)) # override the default mapping from transformed variables to aesthetics
+
+ggplot(data = diamonds) +
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  ) # draw greater attention to the statistical transformation
+
