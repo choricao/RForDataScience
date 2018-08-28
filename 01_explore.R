@@ -313,3 +313,14 @@ daily %>%
   ungroup() %>% 
   summarize(flights = n())
 
+## Grouped Filters and Mutates
+flights_sml %>% 
+  group_by(year, month, day) %>% 
+  filter(rank(desc(arr_delay)) < 5)
+
+flights %>%
+  group_by(dest) %>% 
+  filter(n() > 365) %>% 
+  filter(arr_delay > 0) %>% 
+  mutate(prop_delay = arr_delay / sum(arr_delay)) %>% 
+  select(year:day, origin, dest, arr_delay, prop_delay)
