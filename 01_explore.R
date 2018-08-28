@@ -213,3 +213,39 @@ rename(flights, yr = year) # will keep all variables not explicitly mentioned
 
 select(flights, time_hour, air_time, everything())
 select(flights, contains("TIME", ignore.case = FALSE))
+
+## Add New Variables with mutate()
+flights_sml <- select(flights,
+                      year:day,
+                      ends_with("delay"),
+                      distance,
+                      air_time
+                      )
+mutate(flights_sml,
+       gain = arr_delay - dep_delay,
+       speed = distance / air_time * 60,
+       hours = air_time / 60,
+       gain_per_hour = gain / hours
+       ) # can refer to new columns
+
+transmute(flights_sml,
+          gain = arr_delay - dep_delay,
+          hours = air_time / 60,
+          gain_per_hour = gain / hours
+          ) # use transmute keep new variables only
+
+# useful creating functions
+# arithmetic operators: +, -, *, /, ^
+# modular arithmetic: %/%, %%
+transmute(flights,
+          dep_time,
+          hour = dep_time %/% 100,
+          minute = dep_time %% 100
+          )
+# logs: log(), log2(), log10()
+# offsets: lead(), lag()
+# cumulative and rolling aggregates: cumsun(), cumprod(), cummin(), cummax(), cummean()
+# logical comparison: <, <=, >, >=, !=
+# ranking: min_rank(), min_rank(desc()), row_number(), dense_rank(), percent_rank(), cume_dist()
+y <- c(6, 2, 2, NA, 7, 4)
+min_rank(y)
