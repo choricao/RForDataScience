@@ -234,7 +234,7 @@ transmute(flights_sml,
           gain_per_hour = gain / hours
           ) # use transmute keep new variables only
 
-# useful creating functions
+# useful creation functions
 # arithmetic operators: +, -, *, /, ^
 # modular arithmetic: %/%, %%
 transmute(flights,
@@ -249,3 +249,67 @@ transmute(flights,
 # ranking: min_rank(), min_rank(desc()), row_number(), dense_rank(), percent_rank(), cume_dist()
 y <- c(6, 2, 2, NA, 7, 4)
 min_rank(y)
+
+## Grouped Summaries with summarize()
+summarize(flights, delay = mean(dep_delay, na.rm = TRUE))
+
+by_day <- group_by(flights, year, month, day)
+summarize(by_day, delay = mean(dep_delay, na.rm = TRUE))
+
+# use pipes to focus on data transformation
+delays <- flights %>%
+  group_by(dest) %>%
+  summarize(
+    count = n(), # include count n() or sum(!is.na(x)) for any aggregation
+    dist = mean(distance, na.rm = TRUE), # use na.rm to remove missing values before computation
+    delay = mean(arr_delay, na.rm = TRUE)
+  ) %>%
+  filter(count > 20, dest != "HNL") # filter out groups with smallest numbers of observations
+
+ggplot(data = delays, mapping = aes(x = dist, y = delay)) +
+  geom_point(aes(size = count), alpha = 1 / 3) +
+  geom_smooth(se = FALSE)
+
+# use count to filter out groups with smallest numbers of observations
+batting <-as_tibble(Lahman::Batting)
+
+batters <- batting %>%
+  group_by(playerID) %>% 
+  summarize(
+    ba = sum(H, na.rm = TRUE) / sum(AB, na.rm = TRUE),
+    ab = sum(AB, na.rm = TRUE)
+  )
+
+batters %>% 
+  filter(ab > 100) %>% 
+  ggplot(mapping = aes(x = ab, y = ba)) + 
+  geom_point() +
+  geom_smooth(se = FALSE)
+
+batters %>% 
+  arrange(desc(ba))
+
+batters %>% 
+  ggplot(mapping = aes(x = ab, y = ba)) + 
+  geom_point() +
+  geom_smooth(se = FALSE)
+
+# useful summary functions
+# measures of location: mean(), median()
+# measures of spread: sd(), IQR(), mad()
+# measures of rank: min(), max(), quantile()
+# measures of position: first(), nth(), last()
+# counts: n(), sum(!is.na()), n_distinct()
+# counts and proportions of logical values: sum(x > 10), mean(y == 0)
+
+# grouping by multiple variables
+daily <- group_by(flights, year, month, day)
+(per_day <- summarize(daily, flights = n()))
+(per_month <- summarize(per_day, flights = sum(flights)))
+(per_year <- summarize(per_month, flights = sum(flights)))
+
+# ungrouping
+daily %>%  
+  ungroup() %>% 
+  summarize(flights = n())
+
